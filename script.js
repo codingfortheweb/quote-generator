@@ -7,20 +7,18 @@ const loader = document.getElementById('loader');
 
 let quotes = [];
 
-// Show loading
-const loading = () => {
-    loader.hidden = false; // Show loader
-    quoteContainer.hidden = true; // Hide quoteContainer
+const showLoadingSpinner = () => {
+    loader.hidden = false; 
+    quoteContainer.hidden = true; 
 }
 
-// Hide loading
-const complete = () => {
-    quoteContainer.hidden = false; // Show quoteContainer
-    loader.hidden = true; // Hide loader
+const removeLoadingSpinner = () => {
+    quoteContainer.hidden = false; 
+    loader.hidden = true; 
 }
 
 const newQuote = () => {
-    loading();
+    showLoadingSpinner();
     const quoteData = quotes[Math.floor(Math.random() * quotes.length)];
     // Check if author is equal to null
     if (!quoteData.author) {
@@ -36,18 +34,18 @@ const newQuote = () => {
     }
     // Set quote, hide loader
     quoteText.textContent = quoteData.text;
-    complete();
+    removeLoadingSpinner();
 }
 
 // Get quotes from API
 const getQuotes = async () => {
-    loading();
+    showLoadingSpinner();
     try {
         const response = await fetch('https://type.fit/api/quotes');
         quotes = await response.json();
         newQuote()
     } catch (error) {
-        console.log(error);
+        newQuote();
     }
 }
 // Tweet Quote
